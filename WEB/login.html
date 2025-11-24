@@ -14,23 +14,22 @@
 
     <div class="login-container">
         <h1>Bem vindo de volta</h1>
-        <form action="/login" method="POST">
-            <label for="username">Email</label>
-            <input type="text" id="username" placeholder="Seu email" name="username" required>
+        <form onsubmit="return false">
+            <label for="email">Email</label>
+            <input type="text" id="email" placeholder="Seu email" required>
 
-            <label for="password">Senha</label>
-            <input type="password" id="password" placeholder="Sua senha" name="password" required>
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" placeholder="Sua senha" required>
 
-            <button type="submit" id="loginbtn">Login</button>
+            <button type="button" id="loginbtn">Login</button>
 
             <p class="continue">ou continue com</p>
 
-            <button type="submit" id="googlebtn">Entrar com Google</button>
+            <button type="button" id="googlebtn">Entrar com Google</button>
 
             <p class="signup-link">Não tem uma conta? <a href="#">Registre-se aqui</a></p>
         </form>
     </div>
 
-    <script src="JS/script.js"></script>
-</body>
+    <script type="module" src="JS/login.js"></script></body>
 </html>
