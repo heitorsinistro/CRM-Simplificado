@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interações — CRM 2Tes</title>
+<link rel="stylesheet" href="CSS/sidebarstyle.css">
+<link rel="stylesheet" href="CSS/interacoesstyle.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2 class="sidebar-title">CRM 2Tes</h2>
+
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="dashboard.html">
+                    <span class="icon">📈</span>
+                    Dashboard
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="clientes.html">
+                    <span class="icon">👤</span>
+                    Clientes
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="oportunidades.html">
+                    <span class="icon">💼</span>
+                    Oportunidades
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="interacoes.html">
+                    <span class="icon">💬</span>
+                    Interações
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="usuarios.html">
+                    <span class="icon">👥</span>
+                    Usuários
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="#" id="logoutBtn">
+                    <span class="icon">⏻</span>
+                    Sair
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <section class="card">
+            <h2>Interações</h2>
+
+            <div class="toolbar">
+                <button id="btnNovaInteracao" class="add-button">+ Nova Interação</button>
+                <input id="searchCliente" class="search-input" type="search" placeholder="Pesquisar por cliente...">
+            </div>
+
+            <table id="tabelaInteracoes">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <div id="modalInteracao" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="tituloModal">Nova Interação</h3>
+
+            <label>Cliente</label>
+            <select id="intCliente"></select>
+
+            <label>Oportunidade (opcional)</label>
+            <select id="intOportunidade"></select>
+
+            <label>Tipo</label>
+            <select id="intTipo">
+                <option>Ligação</option>
+                <option>Reunião</option>
+                <option>WhatsApp</option>
+                <option>E-mail</option>
+                <option>Anotação</option>
+                <option>Outro</option>
+            </select>
+
+            <label>Descrição</label>
+            <textarea id="intDesc"></textarea>
+
+            <label>Próxima Ação (opcional)</label>
+            <textarea id="intProx"></textarea>
+
+            <div class="modal-buttons">
+                <button id="salvarInteracao" class="save">Salvar</button>
+                <button id="cancelarInteracao" class="cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+    <script type="module" src="JS/interacoes.js"></script>
+
+</body>
+</html>

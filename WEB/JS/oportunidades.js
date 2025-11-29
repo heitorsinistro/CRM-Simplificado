@@ -49,6 +49,7 @@ btnNova.addEventListener("click", () => {
     inputValor.value = "";
     inputEtapa.value = "Contato";
     inputAnot.value = "";
+    
 });
 
 // -------------------------------------------------------------
