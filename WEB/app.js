@@ -6,11 +6,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-
 // ---------- CONFIGURAÇÃO ----------
 const publicPages = ["login.html", "registro.html"];
 const currentPage = window.location.pathname.split("/").pop() || "clientes.html";
-
 
 // ---------- FUNÇÃO: DESTACAR ITEM DA SIDEBAR ----------
 function highlightSidebar() {
@@ -18,47 +16,47 @@ function highlightSidebar() {
     document.querySelectorAll(".menu-item").forEach(li => li.classList.remove("active"));
     const link = document.querySelector(`.menu-item a[href="${currentPage}"]`);
     if (link?.parentElement) link.parentElement.classList.add("active");
-  } catch (e) {
-    // página sem sidebar (login/registro)
-  }
+  } catch (e) {}
 }
-
 
 // ---------- VERIFICAÇÃO DE LOGIN ----------
 onAuthStateChanged(auth, async (user) => {
+
   const isPublicPage = publicPages.includes(currentPage);
 
+  // --- USUÁRIO DESLOGADO ---
   if (!user) {
-    // usuário não logado
     if (!isPublicPage) {
       window.location.replace("login.html");
     }
     return;
   }
 
-  // usuário logado
-  if (isPublicPage) {
-    // acessando login/registro enquanto logado
+  // --- USUÁRIO LOGADO EM LOGIN → REDIRECIONA ---
+  if (currentPage === "login.html") {
     window.location.replace("dashboard.html");
     return;
   }
 
+  // --- USUÁRIO LOGADO EM REGISTRO → PERMITIR (NÃO REDIRECIONAR) ---
+  // NÃO FAZ NADA AQUI
+
+  // --- CARREGAR DADOS DO USUÁRIO ---
   const ref = doc(db, "usuarios", user.uid);
   const snap = await getDoc(ref);
   const dados = snap.data();
 
-    // ❌ BLOQUEADO → deslogar imediatamente
-  if (dados.bloqueado === true) {
+  // --- VERIFICAR BLOQUEIO ---
+  if (dados?.bloqueado === true) {
     alert("Sua conta foi bloqueada por um administrador.");
     await signOut(auth);
     window.location.href = "login.html";
     return;
   }
 
-  // para páginas normais com sidebar
+  // --- HABILITAR SIDEBAR ---
   highlightSidebar();
 });
-
 
 // ---------- FUNÇÃO DE LOGOUT ----------
 try {
@@ -68,6 +66,4 @@ try {
       signOut(auth);
     });
   }
-} catch (e) {
-  // página não possui botão de logout (login/registro)
-}
+} catch (e) {}
