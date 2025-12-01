@@ -35,10 +35,13 @@ registroBtn.addEventListener("click", async () => {
             nome: nome,
             email: email,
             criadoEm: new Date(),
+            cargo: "user",
+            bloqueado: false,
         });
 
         alert("Conta criada com sucesso!");
 
+        clearInputs();
         window.location.href = "dashboard.html";
 
     } catch (error) {
@@ -59,13 +62,30 @@ googleBtn.addEventListener("click", async () => {
             nome: result.user.displayName,
             email: result.user.email,
             criadoEm: new Date(),
+            cargo: "user",
+            bloqueado: false,
         }, { merge: true }); // não sobrescreve dados existentes
 
         alert("Conta criada com Google!");
 
+        clearInputs();
         window.location.href = "dashboard.html";
 
     } catch (error) {
         alert("Erro ao registrar com Google: " + error.message);
     }
 });
+
+function clearInputs() {
+    const el = id => document.getElementById(id);
+    const nome = el("nome");
+    const email = el("email");
+    const senha = el("senha");
+    if (nome) nome.value = "";
+    if (email) email.value = "";
+    if (senha) senha.value = "";
+}
+
+
+window.addEventListener("pagehide", clearInputs);
+window.addEventListener("beforeunload", clearInputs);

@@ -1,17 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <p>Bem-vindo, <span id="nomeUsuario"></span></p>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — CRM 2Tes</title>
 
-    <button id="logoutBtn">Sair</button>
+  <link rel="stylesheet" href="CSS/sidebarstyle.css">
+  <link rel="stylesheet" href="CSS/dashboardstyle.css">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2 class="sidebar-title">CRM 2Tes</h2>
+
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="dashboard.html">
+                    <span class="icon">📈</span>
+                    Dashboard
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="clientes.html">
+                    <span class="icon">👤</span>
+                    Clientes
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="oportunidades.html">
+                    <span class="icon">💼</span>
+                    Oportunidades
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="interacoes.html">
+                    <span class="icon">💬</span>
+                    Interações
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="usuarios.html">
+                    <span class="icon">👥</span>
+                    Usuários
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="#" id="logoutBtn">
+                    <span class="icon">⏻</span>
+                    Sair
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <h1 class="dashboard-title">DASHBOARD</h1>
+
+        <section class="cards-container">
+
+            <div class="card">
+                <div class="icon-large">👥</div>
+                <p>Total de Clientes</p>
+                <h2 id="totalClientes">--</h2>
+            </div>
+
+            <div class="card">
+                <div class="icon-large">💼</div>
+                <p>Oportunidades Ativas</p>
+                <h2 id="totalOportunidades">--</h2>
+            </div>
+
+            <div class="card">
+                <div class="icon-large">💬</div>
+                <p>Interações Hoje</p>
+                <h2 id="interacoesHoje">--</h2>
+            </div>
+
+        </section>
+
+        <section class="ultimos-clientes card">
+            <h3>👤 Últimos Clientes Cadastrados</h3>
+            <ul id="listaUltimosClientes" class="lista-clientes"></ul>
+        </section>
+
+        <section class="graficos-container">
+
+            <div class="grafico card">
+                <h3>Interações — últimos 7 dias</h3>
+                <canvas id="graficoInteracoes"></canvas>
+            </div>
+
+            <div class="grafico card">
+                <h3>Oportunidades por etapa</h3>
+                <canvas id="graficoEtapas"></canvas>
+            </div>
+
+        </section>
+    </main>
 
     <script type="module" src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script type="module" src="JS/dashboard.js"></script>
 
 </body>
 </html>

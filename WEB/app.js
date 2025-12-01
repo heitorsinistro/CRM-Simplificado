@@ -1,9 +1,10 @@
 // ---------- IMPORTAÇÕES ----------
-import { auth } from "./firebase.js";
+import { db, auth } from "./firebase.js";
 import {
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
 // ---------- CONFIGURAÇÃO ----------
@@ -24,7 +25,7 @@ function highlightSidebar() {
 
 
 // ---------- VERIFICAÇÃO DE LOGIN ----------
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async (user) => {
   const isPublicPage = publicPages.includes(currentPage);
 
   if (!user) {
@@ -38,7 +39,19 @@ onAuthStateChanged(auth, user => {
   // usuário logado
   if (isPublicPage) {
     // acessando login/registro enquanto logado
-    window.location.replace("clientes.html");
+    window.location.replace("dashboard.html");
+    return;
+  }
+
+  const ref = doc(db, "usuarios", user.uid);
+  const snap = await getDoc(ref);
+  const dados = snap.data();
+
+    // ❌ BLOQUEADO → deslogar imediatamente
+  if (dados.bloqueado === true) {
+    alert("Sua conta foi bloqueada por um administrador.");
+    await signOut(auth);
+    window.location.href = "login.html";
     return;
   }
 
