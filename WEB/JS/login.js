@@ -21,10 +21,11 @@ loginBtn.addEventListener("click", () => {
 
     signInWithEmailAndPassword(auth, email, senha)
       .then(() => {
-          window.location = "dashboard.html"; 
+        clearInputs();
+        window.location = "dashboard.html"; 
       })
       .catch((error) => {
-          alert("Erro: " + error.message);
+        alert("Erro: " + error.message);
       });
 });
 
@@ -49,6 +50,7 @@ googleBtn.addEventListener("click", async () => {
             logadoVia: "google"
         }, { merge: true });
 
+        clearInputs();
         // Redireciona para o dashboard
         window.location = "dashboard.html";
 
@@ -57,3 +59,14 @@ googleBtn.addEventListener("click", async () => {
         alert("Erro ao fazer login com Google: " + error.message);
     }
 });
+
+function clearInputs() {
+    const el = id => document.getElementById(id);
+    const email = el("email");
+    const senha = el("senha");
+    if (email) email.value = "";
+    if (senha) senha.value = "";
+}
+
+window.addEventListener("pagehide", clearInputs);
+window.addEventListener("beforeunload", clearInputs);
