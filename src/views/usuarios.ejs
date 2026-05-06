@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usuários — CRM 2Tes</title>
+  <link rel="stylesheet" href="../public/styles/sidebarstyle.css" />
+  <link rel="stylesheet" href="../public/styles/usuariosstyle.css" />
+</head>
+<body>
+  <%- include('partials/sidebar') %>
+  <main>
+    <h1 class="titulo-pagina">Usuários do Sistema</h1>
+    <div class="card usuarios-card">
+      <table class="usuarios-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Nível</th>
+            <th>Acesso</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!usuarios || usuarios.length === 0) { %>
+            <tr><td colspan="5">Nenhum usuário cadastrado.</td></tr>
+          <% } else { %>
+            <% usuarios.forEach(usuario => { %>
+              <tr>
+                <td><%= usuario.nome %></td>
+                <td><%= usuario.email %></td>
+                <td><%= usuario.cargo %></td>
+                <td><%= usuario.bloqueado ? 'Bloqueado' : 'Ativo' %></td>
+                <td>
+                  <form action="/usuarios/<%= usuario.id %>/delete" method="post" style="display:inline;">
+                    <button type="submit" class="delete-button">Excluir</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

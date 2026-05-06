@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../public/styles/loginstyle.css" />
+  <title>Login — CRM 2Tes</title>
+</head>
+<body>
+  <header>
+    <p><b>CRM 2Tes — Sistema Simplificado</b></p>
+  </header>
+
+  <div class="login-container">
+    <h1>Bem-vindo de volta</h1>
+    <% if (message) { %>
+      <div class="error-message"><%= message %></div>
+    <% } %>
+    <form action="/auth/login" method="post">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" placeholder="Seu email" required />
+
+      <label for="senha">Senha</label>
+      <input type="password" name="senha" id="senha" placeholder="Sua senha" required />
+
+      <button type="submit">Login</button>
+
+      <p class="continue">ou continue com</p>
+      <button type="button" disabled>Entrar com Google</button>
+
+      <p class="signup-link">Não tem uma conta? <a href="/registro">Registre-se aqui!</a></p>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interações — CRM 2Tes</title>
+  <link rel="stylesheet" href="../public/styles/sidebarstyle.css" />
+  <link rel="stylesheet" href="../public/styles/interacoesstyle.css" />
+</head>
+<body>
+  <%- include('partials/sidebar') %>
+  <main>
+    <section class="card">
+      <h2>Interações</h2>
+      <% if (message) { %>
+        <div class="error-message"><%= message %></div>
+      <% } %>
+
+      <form class="interacao-form" action="/interacoes" method="post">
+        <div class="field-row">
+          <label>Cliente</label>
+          <select name="cliente_id" required>
+            <option value="">Selecione um cliente</option>
+            <% clientes.forEach(cliente => { %>
+              <option value="<%= cliente.id %>"><%= cliente.nome %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Oportunidade (opcional)</label>
+          <select name="oportunidade_id">
+            <option value="">Nenhuma</option>
+            <% oportunidades.forEach(o => { %>
+              <option value="<%= o.id %>"><%= o.nome %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Tipo</label>
+          <select name="tipo" required>
+            <option>Ligação</option>
+            <option>Reunião</option>
+            <option>WhatsApp</option>
+            <option>E-mail</option>
+            <option>Anotação</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label>Descrição</label>
+          <textarea name="descricao"></textarea>
+        </div>
+        <div class="field-row">
+          <label>Próxima Ação (opcional)</label>
+          <textarea name="prox_acao"></textarea>
+        </div>
+        <button type="submit" class="save">Salvar Interação</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Oportunidade</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (!interacoes || interacoes.length === 0) { %>
+            <tr><td colspan="6">Nenhuma interação cadastrada.</td></tr>
+          <% } else { %>
+            <% interacoes.forEach(item => { %>
+              <tr>
+                <td><%= item.cliente || '-' %></td>
+                <td><%= item.oportunidade || '-' %></td>
+                <td><%= item.tipo %></td>
+                <td><%= item.descricao || '-' %></td>
+                <td><%= item.data %></td>
+                <td>
+                  <form action="/interacoes/<%= item.id %>/delete" method="post" style="display:inline;">
+                    <button type="submit" class="delete-button">Excluir</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          <% } %>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

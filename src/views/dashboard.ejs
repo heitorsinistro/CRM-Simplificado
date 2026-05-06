@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — CRM 2Tes</title>
+  <link rel="stylesheet" href="../public/styles/sidebarstyle.css" />
+  <link rel="stylesheet" href="../public/styles/dashboardstyle.css" />
+</head>
+<body>
+  <%- include('partials/sidebar') %>
+  <main>
+    <h1 class="dashboard-title">DASHBOARD</h1>
+
+    <section class="cards-container">
+      <div class="card">
+        <div class="icon-large">👥</div>
+        <p>Total de Clientes</p>
+        <h2><%= totalClientes %></h2>
+      </div>
+      <div class="card">
+        <div class="icon-large">💼</div>
+        <p>Oportunidades Ativas</p>
+        <h2><%= totalOportunidades %></h2>
+      </div>
+      <div class="card">
+        <div class="icon-large">💬</div>
+        <p>Interações Hoje</p>
+        <h2><%= interacoesHoje %></h2>
+      </div>
+    </section>
+
+    <section class="ultimos-clientes card">
+      <h3>👤 Últimos Clientes Cadastrados</h3>
+      <ul class="lista-clientes">
+        <% if (!ultimosClientes || ultimosClientes.length === 0) { %>
+          <li>Nenhum cliente cadastrado ainda.</li>
+        <% } else { %>
+          <% ultimosClientes.forEach(cliente => { %>
+            <li><strong><%= cliente.nome %></strong> — <%= cliente.empresa || 'Sem empresa' %></li>
+          <% }); %>
+        <% } %>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
