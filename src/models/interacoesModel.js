@@ -28,8 +28,9 @@ export async function createInteracao(payload) {
 
   const oportunidadeId = value.oportunidade_id || null;
 
+  // arrumar usuario_id
   await db.execute(
-    'INSERT INTO interacoes (cliente_id, oportunidade_id, tipo, descricao, proxima_acao, data, criado_em) VALUES (?, ?, ?, ?, ?, NOW(), NOW())',
+    'INSERT INTO interacoes (cliente_id, oportunidade_id, tipo, descricao, proxima_acao, data) VALUES (?, ?, ?, ?, ?, NOW())',
     [value.cliente_id, oportunidadeId, value.tipo, value.descricao || '', value.proxima_acao || '']
   );
 }

@@ -16,11 +16,21 @@ export async function listOportunidades() {
      LEFT JOIN clientes c ON o.cliente_id = c.id
      ORDER BY o.criado_em DESC`
   );
-  return rows;
+  return rows.map(row => ({
+    ...row,
+    valor: parseFloat(row.valor) || 0
+  }));
 }
 
 export async function createOportunidade(payload) {
-  const { error, value } = oportunidadeSchema.validate(payload, { abortEarly: false });
+  // Converter valor para number se for string
+  const processedPayload = {
+    ...payload,
+    valor: typeof payload.valor === 'string' ? parseFloat(payload.valor) : payload.valor,
+    cliente_id: payload.cliente_id ? parseInt(payload.cliente_id) : null
+  };
+
+  const { error, value } = oportunidadeSchema.validate(processedPayload, { abortEarly: false });
   if (error) {
     throw new Error(error.details.map(detail => detail.message).join(', '));
   }

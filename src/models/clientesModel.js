@@ -3,9 +3,9 @@ import db from '../config/db.js';
 
 const clienteSchema = Joi.object({
   nome: Joi.string().min(2).required(),
-  empresa: Joi.string().allow('', null),
+  empresa: Joi.string().allow('', null).required(),
   email: Joi.string().email().required(),
-  telefone: Joi.string().allow('', null),
+  telefone: Joi.string().allow('', null).required(),
   categoria: Joi.string().valid('lead', 'contato', 'qualificado', 'cliente_ativo', 'cliente_inativo', 'cliente_perdido').required(),
   anotacoes: Joi.string().allow('', null)
 });
