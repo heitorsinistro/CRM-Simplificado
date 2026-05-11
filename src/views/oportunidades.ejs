@@ -34,9 +34,8 @@
               <input name="nome" type="text" />
             </div>
             <div class="field-row">
-              <label>Cliente (opcional)</label>
-              <select name="cliente_id">
-                <option value="">Nenhum</option>
+              <label>Selecione um cliente</label>
+              <select name="cliente_id" required>
                 <% clientes.forEach(cliente => { %>
                   <option value="<%= cliente.id %>"><%= cliente.nome %></option>
                 <% }) %>

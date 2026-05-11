@@ -25,6 +25,9 @@
         <div class="modal-content">
           <span id="closeModal" class="close">&times;</span>
           <h2>Adicionar Nova Interação</h2>
+          <% if (modalError) { %>
+            <div class="modal-error-message"><%= modalError %></div>
+          <% } %>
           <form id="interacaoForm" action="/interacoes" method="post">
             <div class="field-row">
               <label>Cliente</label>
@@ -102,6 +105,7 @@
     const btnNovaInteracao = document.getElementById('btnNovaInteracao');
     const modalInteracao = document.getElementById('modalInteracao');
     const closeModal = document.getElementById('closeModal');
+    const modalError = document.querySelector('.modal-error-message');
 
     btnNovaInteracao.addEventListener('click', () => {
       modalInteracao.classList.remove('hidden');
@@ -116,6 +120,11 @@
         modalInteracao.classList.add('hidden');
       }
     });
+
+    // Manter modal aberta se houver erro
+    if (modalError) {
+      modalInteracao.classList.remove('hidden');
+    }
   </script>
 
 </body>
