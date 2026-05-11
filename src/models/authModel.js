@@ -1,28 +1,11 @@
 import crypto from 'crypto';
-import Joi from 'joi';
 import db from '../config/db.js';
-
-const registerSchema = Joi.object({
-  nome: Joi.string().min(3).required(),
-  email: Joi.string().email().required(),
-  senha: Joi.string().min(6).required()
-});
-
-const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  senha: Joi.string().min(6).required()
-});
 
 function hashPassword(password) {
   return crypto.createHash('sha256').update(password).digest('hex');
 }
 
-export async function registerUser(payload) {
-  const { error, value } = registerSchema.validate(payload, { abortEarly: false });
-  if (error) {
-    throw new Error(error.details.map(detail => detail.message).join(', '));
-  }
-
+export async function registerUser(value) {
   const [existing] = await db.execute('SELECT id FROM usuarios WHERE email = ?', [value.email]);
   if (existing.length > 0) {
     throw new Error('Já existe um usuário cadastrado com este email.');
@@ -35,12 +18,7 @@ export async function registerUser(payload) {
   );
 }
 
-export async function loginUser(payload) {
-  const { error, value } = loginSchema.validate(payload, { abortEarly: false });
-  if (error) {
-    throw new Error(error.details.map(detail => detail.message).join(', '));
-  }
-
+export async function loginUser(value) {
   const [rows] = await db.execute('SELECT id, nome, email, senha, bloqueado FROM usuarios WHERE email = ?', [value.email]);
   if (rows.length === 0) {
     return null;

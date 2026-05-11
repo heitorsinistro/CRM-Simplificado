@@ -1,13 +1,4 @@
-import Joi from 'joi';
 import db from '../config/db.js';
-
-const interacaoSchema = Joi.object({
-  cliente_id: Joi.number().integer().required(),
-  oportunidade_id: Joi.number().integer().allow(null, ''),
-  tipo: Joi.string().valid('Ligação', 'Reunião', 'WhatsApp', 'E-mail', 'Anotação', 'Outro').required(),
-  descricao: Joi.string().allow('', null),
-  proxima_acao: Joi.string().allow('', null)
-});
 
 export async function listInteracoes() {
   const [rows] = await db.execute(
@@ -20,12 +11,7 @@ export async function listInteracoes() {
   return rows;
 }
 
-export async function createInteracao(payload) {
-  const { error, value } = interacaoSchema.validate(payload, { abortEarly: false });
-  if (error) {
-    throw new Error(error.details.map(detail => detail.message).join(', '));
-  }
-
+export async function createInteracao(value) {
   const oportunidadeId = value.oportunidade_id || null;
 
   // arrumar usuario_id

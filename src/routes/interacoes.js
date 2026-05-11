@@ -1,20 +1,10 @@
 import { Router } from 'express';
-import { createInteracao, deleteInteracao } from '../controllers/interacoesController.js';
+import { postInteracao, deleteInteracaoHandler } from '../controllers/interacoesController.js';
 
 const router = Router();
 
-router.post('/', async (req, res) => {
-  try {
-    await createInteracao(req.body);
-    return res.redirect('/interacoes');
-  } catch (error) {
-    return res.status(400).render('interacoes', { interacoes: [], clientes: [], oportunidades: [], message: error.message });
-  }
-});
+router.post('/', postInteracao);
 
-router.post('/:id/delete', async (req, res) => {
-  await deleteInteracao(req.params.id);
-  res.redirect('/interacoes');
-});
+router.post('/:id/delete', deleteInteracaoHandler);
 
 export default router;

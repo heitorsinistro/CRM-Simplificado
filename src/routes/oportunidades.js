@@ -1,20 +1,10 @@
 import { Router } from 'express';
-import { createOportunidade, deleteOportunidade } from '../controllers/oportunidadesController.js';
+import { postOportunidade, deleteOportunidadeHandler } from '../controllers/oportunidadesController.js';
 
 const router = Router();
 
-router.post('/', async (req, res) => {
-  try {
-    await createOportunidade(req.body);
-    return res.redirect('/oportunidades');
-  } catch (error) {
-    return res.status(400).render('oportunidades', { oportunidades: [], clientes: [], message: error.message });
-  }
-});
+router.post('/', postOportunidade);
 
-router.post('/:id/delete', async (req, res) => {
-  await deleteOportunidade(req.params.id);
-  res.redirect('/oportunidades');
-});
+router.post('/:id/delete', deleteOportunidadeHandler);
 
 export default router;

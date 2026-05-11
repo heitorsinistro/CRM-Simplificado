@@ -1,20 +1,10 @@
 import { Router } from 'express';
-import { createCliente, deleteCliente } from '../controllers/clientesController.js';
+import { postCliente, deleteClienteHandler } from '../controllers/clientesController.js';
 
 const router = Router();
 
-router.post('/', async (req, res) => {
-  try {
-    await createCliente(req.body);
-    return res.redirect('/clientes');
-  } catch (error) {
-    return res.status(400).render('clientes', { clientes: [], message: error.message });
-  }
-});
+router.post('/', postCliente);
 
-router.post('/:id/delete', async (req, res) => {
-  await deleteCliente(req.params.id);
-  res.redirect('/clientes');
-});
+router.post('/:id/delete', deleteClienteHandler);
 
 export default router;
