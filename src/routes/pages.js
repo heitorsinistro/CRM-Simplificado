@@ -4,6 +4,8 @@ import { getClientes } from '../controllers/clientesController.js';
 import { getOportunidades } from '../controllers/oportunidadesController.js';
 import { getInteracoes } from '../controllers/interacoesController.js';
 import { getUsuarios } from '../controllers/usuariosController.js';
+import { verifyToken } from '../middleware/authMiddleware.js';
+import { isConnected } from '../config/db.js';
 
 const router = Router();
 
@@ -19,17 +21,22 @@ router.get('/registro', (req, res) => {
   res.render('registro', { message: null });
 });
 
-router.get('/dashboard', async (req, res) => {
+router.get('/health', async (req, res) => {
+  const ok = await isConnected();
+  res.status(ok ? 200 : 503).json({ db: ok });
+});
+
+router.get('/dashboard', verifyToken, async (req, res) => {
   const metrics = await getDashboardMetrics();
   res.render('dashboard', metrics);
 });
 
-router.get('/clientes', getClientes);
+router.get('/clientes', verifyToken, getClientes);
 
-router.get('/oportunidades', getOportunidades);
+router.get('/oportunidades', verifyToken, getOportunidades);
 
-router.get('/interacoes', getInteracoes);
+router.get('/interacoes', verifyToken, getInteracoes);
 
-router.get('/usuarios', getUsuarios);
+router.get('/usuarios', verifyToken, getUsuarios);
 
 export default router;

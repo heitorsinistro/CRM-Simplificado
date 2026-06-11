@@ -8,6 +8,7 @@ router.post('/login', login);
 router.post('/register', register);
 
 router.get('/logout', (req, res) => {
+  try { res.clearCookie && res.clearCookie('token'); } catch (_) {}
   res.redirect('/login');
 });
 

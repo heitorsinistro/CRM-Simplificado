@@ -12,9 +12,10 @@ export async function registerUser(value) {
   }
 
   const senhaHash = hashPassword(value.senha);
+  const id = crypto.randomUUID ? crypto.randomUUID() : crypto.randomBytes(16).toString('hex');
   await db.execute(
-    'INSERT INTO usuarios (nome, email, senha, cargo, bloqueado, criado_em) VALUES (?, ?, ?, ?, ?, NOW())',
-    [value.nome, value.email, senhaHash, 'user', 0]
+    'INSERT INTO usuarios (id, nome, email, senha, cargo, bloqueado, criado_em) VALUES (?, ?, ?, ?, ?, ?, NOW())',
+    [id, value.nome, value.email, senhaHash, 'user', 0]
   );
 }
 

@@ -66,6 +66,14 @@ http://localhost:3000
 - Use `http://localhost:3000/interacoes` para registrar interações.
 - Use `http://localhost:3000/usuarios` para visualizar usuários.
 
+## Monitoramento e modo de manutenção
+
+- Rota de healthcheck: `GET /health` — retorna `200` com `{ "db": true }` quando a aplicação consegue se conectar ao banco, ou `503` com `{ "db": false }` quando o banco está indisponível.
+- Comportamento de manutenção: quando o `src/config/db.js` detecta que o banco está inacessível, o aplicativo responde com `503 Service Unavailable` para rotas que dependem do banco (páginas e APIs), exibindo uma página de manutenção (`maintenance.ejs`).
+- A rota `/health` é pública e deve ser usada por ferramentas de monitoramento (UptimeRobot, load balancers, Prometheus) para detectar indisponibilidade e evitar enviar tráfego para a aplicação durante a degradação.
+
+Recomendação: configure seu monitor (ou load balancer) para checar `/health` periodicamente e só direcionar tráfego quando receber `200`.
+
 ## Estrutura de pastas
 ```text
 CRM-Simplificado/

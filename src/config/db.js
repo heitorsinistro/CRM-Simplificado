@@ -30,4 +30,35 @@ const pool = mysql.createPool(dbConfig);
     }
 })();
 
+// Verifica conectividade ao banco
+export async function isConnected() {
+    try {
+        await pool.query('SELECT 1');
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
+// Loop de verificação em background (loga mudanças de estado)
+let lastHealthy = true;
+(async function monitor() {
+    try {
+        while (true) {
+            try {
+                const ok = await isConnected();
+                if (ok !== lastHealthy) {
+                    console.log('[db.monitor] healthy:', ok);
+                    lastHealthy = ok;
+                }
+                // se saudável, checa a cada 30s
+                await new Promise(r => setTimeout(r, ok ? 30000 : 5000));
+            } catch (e) {
+                console.error('[db.monitor] erro ao checar db', e.message || e);
+                await new Promise(r => setTimeout(r, 5000));
+            }
+        }
+    } catch (_) {}
+})();
+
 export default pool;

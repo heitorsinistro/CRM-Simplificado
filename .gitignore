@@ -3,3 +3,9 @@ node_modules/
 dist/
 build/
 coverage/
+migrations/
+txt/
+*.txt
+scripts/
+logs/
+*.log
