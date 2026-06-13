@@ -8,28 +8,38 @@
 </head>
 <body>
   <header>
-    <p><b>CRM 2Tes — Sistema Simplificado</b></p>
+    <strong>CRM 2Tes</strong> — Sistema Simplificado
   </header>
 
   <div class="login-container">
     <h1>Bem-vindo de volta</h1>
+
     <% if (message) { %>
-      <div class="error-message"><%= message %></div>
+      <div class="alert alert-error" role="alert" aria-live="assertive">
+        <span class="alert-text"><%= message %></span>
+        <button class="alert-close" aria-label="Fechar alerta">&times;</button>
+      </div>
     <% } %>
-    <form action="/auth/login" method="post">
+    
+    <form action="/auth/login" method="POST">
       <label for="email">Email</label>
-      <input type="email" name="email" id="email" placeholder="Seu email" required />
+      <input type="email" id="email" name="email" placeholder="Seu email" required />
 
       <label for="senha">Senha</label>
-      <input type="password" name="senha" id="senha" placeholder="Sua senha" required />
+      <input type="password" id="senha" name="senha" placeholder="Sua senha" required />
 
       <button type="submit">Login</button>
-
+      
       <p class="continue">ou continue com</p>
-      <button type="button" disabled>Entrar com Google</button>
-
-      <p class="signup-link">Não tem uma conta? <a href="/registro">Registre-se aqui!</a></p>
+      
+      <button type="button" class="btn-google">Entrar com Google</button>
     </form>
+
+    <div class="signup-link">
+      Não tem uma conta? <a href="/registro">Registre-se aqui!</a>
+    </div>
+    
   </div>
+  <script src="/static/scripts/alerts.js" defer></script>
 </body>
 </html>

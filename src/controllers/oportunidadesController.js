@@ -1,5 +1,6 @@
 import { listOportunidades, createOportunidade, deleteOportunidade } from '../services/oportunidadesService.js';
 import { listClientes } from '../services/clientesService.js';
+import { getUserMessage } from '../utils/errorUtils.js';
 
 export async function getOportunidades(req, res) {
   try {
@@ -16,9 +17,11 @@ export async function postOportunidade(req, res) {
     await createOportunidade(req.body);
     res.redirect('/oportunidades');
   } catch (error) {
+    console.error('postOportunidade error:', error);
     const oportunidades = await listOportunidades();
     const clientes = await listClientes();
-    res.status(400).render('oportunidades', { oportunidades, clientes, message: null, modalError: error.message });
+    const modalError = getUserMessage(error, 'Não foi possível criar a oportunidade. Tente novamente.');
+    res.status(400).render('oportunidades', { oportunidades, clientes, message: null, modalError });
   }
 }
 

@@ -8,32 +8,43 @@
   <link rel="stylesheet" href="/styles/usuariosstyle.css" />
 </head>
 <body>
+  
   <%- include('partials/sidebar') %>
+
   <main>
-    <h1 class="titulo-pagina">Usuários do Sistema</h1>
+    <header class="topo">
+      <h1 class="titulo-pagina">Usuários do Sistema</h1>
+    </header>
+
     <div class="card usuarios-card">
       <table class="usuarios-table">
         <thead>
           <tr>
             <th>Nome</th>
             <th>Email</th>
-            <th>Nível</th>
-            <th>Acesso</th>
+            <th>Cargo</th>
+            <th>Status</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           <% if (!usuarios || usuarios.length === 0) { %>
-            <tr><td colspan="5">Nenhum usuário cadastrado.</td></tr>
+            <tr>
+              <td colspan="5" class="empty-row">Nenhum usuário cadastrado.</td>
+            </tr>
           <% } else { %>
             <% usuarios.forEach(usuario => { %>
               <tr>
-                <td><%= usuario.nome %></td>
+                <td class="user-name"><%= usuario.nome %></td>
                 <td><%= usuario.email %></td>
-                <td><%= usuario.cargo %></td>
-                <td><%= usuario.bloqueado ? 'Bloqueado' : 'Ativo' %></td>
+                <td><span class="badge-cargo"><%= usuario.cargo %></span></td>
                 <td>
-                  <form action="/usuarios/<%= usuario.id %>/delete" method="post" style="display:inline;">
+                  <span class="status-tag <%= usuario.bloqueado ? 'bloqueado' : 'ativo' %>">
+                    <%= usuario.bloqueado ? 'Bloqueado' : 'Ativo' %>
+                  </span>
+                </td>
+                <td>
+                  <form action="/usuarios/<%= usuario.id %>/delete" method="post" onsubmit="return confirm('Tem certeza que deseja excluir?')">
                     <button type="submit" class="delete-button">Excluir</button>
                   </form>
                 </td>

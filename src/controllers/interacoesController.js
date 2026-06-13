@@ -1,6 +1,7 @@
 import { listInteracoes, createInteracao, deleteInteracao } from '../services/interacoesService.js';
 import { listClientes } from '../services/clientesService.js';
 import { listOportunidades } from '../services/oportunidadesService.js';
+import { getUserMessage } from '../utils/errorUtils.js';
 
 export async function getInteracoes(req, res) {
   try {
@@ -18,10 +19,12 @@ export async function postInteracao(req, res) {
     await createInteracao(req.body);
     res.redirect('/interacoes');
   } catch (error) {
+    console.error('postInteracao error:', error);
     const interacoes = await listInteracoes();
     const clientes = await listClientes();
     const oportunidades = await listOportunidades();
-    res.status(400).render('interacoes', { interacoes, clientes, oportunidades, message: null, modalError: error.message });
+    const modalError = getUserMessage(error, 'Não foi possível criar a interação. Tente novamente.');
+    res.status(400).render('interacoes', { interacoes, clientes, oportunidades, message: null, modalError });
   }
 }
 

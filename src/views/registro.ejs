@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/styles/registrostyle.css" />
+  <link rel="stylesheet" href="/styles/loginstyle.css" />
   <title>Registro — CRM 2Tes</title>
 </head>
 <body>
   <header>
-    <p><b>CRM 2Tes — Sistema Simplificado</b></p>
+    <strong>CRM 2Tes</strong> — Sistema Simplificado
   </header>
 
-  <div class="registro-container">
+  <div class="login-container">
     <h1>Crie sua conta</h1>
     <% if (message) { %>
-      <div class="error-message"><%= message %></div>
+      <div class="alert alert-error" role="alert" aria-live="assertive">
+        <span class="alert-text"><%= message %></span>
+        <button class="alert-close" aria-label="Fechar alerta">&times;</button>
+      </div>
     <% } %>
-    <form action="/auth/register" method="post">
+    <form action="/auth/register" method="POST">
       <label for="nome">Nome Completo</label>
       <input type="text" name="nome" id="nome" placeholder="Seu nome completo" required />
 
@@ -29,10 +32,14 @@
       <button type="submit">Registrar</button>
 
       <p class="continue">ou registre-se com</p>
-      <button type="button" disabled>Registrar com Google</button>
-
-      <p class="login-link">Já tem uma conta? <a href="/login">Faça login aqui</a></p>
+      
+      <button type="button" class="btn-google">Registrar com Google</button>
     </form>
+
+    <div class="signup-link">
+      Já tem uma conta? <a href="/login">Faça login aqui</a>
+    </div>
   </div>
+  <script src="/static/scripts/alerts.js" defer></script>
 </body>
 </html>

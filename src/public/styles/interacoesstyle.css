@@ -1,3 +1,5 @@
+
+
 .card {
     background: white;
     width: 90%;
@@ -37,10 +39,13 @@ th, td {
     text-overflow: ellipsis;
 }
 
-button.action {
-    padding: 5px 10px;
+/* Ajustado para unificar os botões da tabela */
+.action {
+    padding: 6px 12px;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
+    font-weight: 500;
 }
 
 .edit {
@@ -63,10 +68,11 @@ button.action {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .modal-content {
@@ -75,6 +81,7 @@ button.action {
     border-radius: 10px;
     width: 350px;
     box-shadow: 0px 0px 10px #0003;
+    position: relative;
 }
 
 .modal-content h3 {
@@ -89,7 +96,9 @@ button.action {
     font-weight: bold;
 }
 
-.modal-content input {
+.modal-content input, 
+.modal-content select, 
+.modal-content textarea {
     width: 100%;
     padding: 8px 10px;
     margin-bottom: 15px;
@@ -99,12 +108,6 @@ button.action {
 }
 
 .modal-content textarea {
-    width: 100%;
-    padding: 8px 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
     resize: vertical;
 }
 
@@ -114,25 +117,23 @@ button.action {
     margin-top: 15px;
 }
 
-#intOportunidade, #intCliente {
-    max-width: 300px;
-}
-
 .save {
     background: #2ecc71;
-    padding: 10px;
+    padding: 10px 20px;
     border: none;
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .cancel {
     background: #bdc3c7;
-    padding: 10px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    color: #333;
 }
 
 .toolbar {
@@ -153,20 +154,20 @@ button.action {
     margin-bottom: 15px;
 }
 
-.field-row select {
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 15px;
-}
-
+/* Botão X do modal */
 .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
     background: transparent;
     border: none;
-    font-size: 20px;
+    font-size: 24px;
     cursor: pointer;
+    color: #999;
+}
+
+.close:hover {
+    color: #333;
 }
 
 .modal-error-message {
@@ -189,3 +190,4 @@ button.action {
         width: 100%;
     }
 }
+

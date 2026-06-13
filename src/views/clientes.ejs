@@ -13,7 +13,10 @@
     <section class="card">
       <h2>Clientes</h2>
       <% if (message) { %>
-        <div class="error-message"><%= message %></div>
+        <div class="alert alert-error" role="alert" aria-live="assertive">
+          <span class="alert-text"><%= message %></span>
+          <button class="alert-close" aria-label="Fechar alerta">&times;</button>
+        </div>
       <% } %>
 
       <div class="toolbar">
@@ -26,7 +29,10 @@
           <span id="closeModal" class="close">&times;</span>
           <h2>Adicionar Novo Cliente</h2>
           <% if (modalError) { %>
-            <div class="modal-error-message"><%= modalError %></div>
+            <div class="alert alert-error" role="alert" aria-live="assertive">
+              <span class="alert-text"><%= modalError %></span>
+              <button class="alert-close" aria-label="Fechar alerta">&times;</button>
+            </div>
           <% } %>
           <form id="clienteForm" action="/clientes" method="post">
             <div class="field-row">
@@ -103,7 +109,7 @@
     const btnNovoCliente = document.getElementById('btnNovoCliente');
     const modalCliente = document.getElementById('modalCliente');
     const closeModal = document.getElementById('closeModal');
-    const modalError = document.querySelector('.modal-error-message');
+    const modalError = document.querySelector('.modal .alert');
 
     btnNovoCliente.addEventListener('click', () => {
       modalCliente.classList.remove('hidden');
@@ -124,5 +130,6 @@
       modalCliente.classList.remove('hidden');
     }
   </script>
+  <script src="/static/scripts/alerts.js" defer></script>
 </body>
 </html>

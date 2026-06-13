@@ -6,6 +6,6 @@ coverage/
 migrations/
 txt/
 *.txt
-scripts/
+
 logs/
 *.log

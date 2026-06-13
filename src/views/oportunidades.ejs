@@ -10,94 +10,122 @@
 <body>
   <%- include('partials/sidebar') %>
   <main>
-    <section class="card">
-      <h2>Oportunidades</h2>
-      <% if (message) { %>
-        <div class="error-message"><%= message %></div>
-      <% } %>
+    <section class="card-painel">
+      <div class="header-section">
+
+        <h2>Oportunidades</h2>
+        <% if (message) { %>
+          <div class="alert alert-error" role="alert" aria-live="assertive">
+            <span class="alert-text"><%= message %></span>
+            <button class="alert-close" aria-label="Fechar alerta">&times;</button>
+          </div>
+        <% } %>
+      </div>
 
       <div class="toolbar">
-          <button id="btnNovaOportunidade" class="add-button">+ Nova Oportunidade</button>
-          <input id="searchOportunidade" class="search-input" type="search" placeholder="Pesquisar por nome...">
+        <button id="btnNovaOportunidade" class="add-button">+ Nova Oportunidade</button>
+        <input id="searchOportunidade" class="search-input" type="search" placeholder="Pesquisar oportunidade...">
       </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Cliente</th>
+                <th>Valor</th>
+                <th>Etapa</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (!oportunidades || oportunidades.length === 0) { %>
+                <tr><td colspan="5" class="empty-msg">Nenhuma oportunidade cadastrada.</td></tr>
+              <% } else { %>
+                <% oportunidades.forEach(item => { %>
+                  <tr>
+                    <td class="bold-text"><%= item.nome %></td>
+                    <td><%= item.cliente || '-' %></td>
+                    <td class="valor-text">R$ <%= item.valor.toFixed(2) %></td>
+                    <td><span class="etapa-badge <%= item.etapa.toLowerCase() %>"><%= item.etapa %></span></td>
+                    <td>
+                      <form action="/oportunidades/<%= item.id %>/delete" method="post" onsubmit="return confirm('Excluir esta oportunidade?')">
+                        <button type="submit" class="delete-btn">Excluir</button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } %>
+            </tbody>
+          </table>
+      </div>
+
+        
 
       <div id="modalOportunidade" class="modal hidden">
         <div class="modal-content">
-          <span id="closeModal" class="close">&times;</span>
-          <h2>Adicionar Nova Oportunidade</h2>
-          <% if (modalError) { %>
-            <div class="modal-error-message"><%= modalError %></div>
-          <% } %>
-          <form id="oportunidadeForm" action="/oportunidades" method="post">
-            <div class="field-row">
-              <label>Nome</label>
-              <input name="nome" type="text" />
-            </div>
-            <div class="field-row">
-              <label>Selecione um cliente</label>
-              <select name="cliente_id" required>
-                <% clientes.forEach(cliente => { %>
-                  <option value="<%= cliente.id %>"><%= cliente.nome %></option>
-                <% }) %>
-              </select>
-            </div>
-            <div class="field-row">
-              <label>Valor</label>
-              <input name="valor" type="number" step="0.01" />
-            </div>
-            <div class="field-row">
-              <label>Etapa</label>
-              <select name="etapa" required>
-                <option>Contato</option>
-                <option>Proposta</option>
-                <option>Negociação</option>
-                <option>Fechamento</option>
-                <option>Perdida</option>
-              </select>
-            </div>
-            <button type="submit" class="save">Salvar Oportunidade</button>
+          <div class="modal-header">
+            <h2>Nova Oportunidade</h2>
+            <span id="closeModal" class="close">&times;</span>
+          </div>
+
+            <% if (modalError) { %>
+              <div class="alert alert-error" role="alert" aria-live="assertive">
+                <span class="alert-text"><%= modalError %></span>
+                <button class="alert-close" aria-label="Fechar alerta">&times;</button>
+              </div>
+            <% } %>
+            
+            <form id="oportunidadeForm" action="/oportunidades" method="post">
+              <div class="field-group">
+                <label>Título da Oportunidade</label>
+                <input name="nome" type="text" placeholder="Ex: Venda de Software" required />
+              </div>
+              
+              <div class="field-group">
+                <label>Cliente Relacionado</label>
+                <select name="cliente_id" required>
+                  <option value="" disabled selected>Selecione um cliente...</option>
+                  <% clientes.forEach(cliente => { %>
+                    <option value="<%= cliente.id %>"><%= cliente.nome %></option>
+                  <% }) %>
+                </select>
+              </div>
+
+              <div class="field-row-grid">
+                <div class="field-group">
+                  <label>Valor (R$)</label>
+                  <input name="valor" type="number" step="0.01" placeholder="0,00" required />
+                </div>
+                <div class="field-group">
+                  <label>Etapa Atual</label>
+                  <select name="etapa" required>
+                    <option>Contato</option>
+                    <option>Proposta</option>
+                    <option>Negociação</option>
+                    <option>Fechamento</option>
+                    <option>Perdida</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="save-btn">Salvar Oportunidade</button>
           </form>
+
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Cliente</th>
-            <th>Valor</th>
-            <th>Etapa</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if (!oportunidades || oportunidades.length === 0) { %>
-            <tr><td colspan="5">Nenhuma oportunidade cadastrada.</td></tr>
-          <% } else { %>
-            <% oportunidades.forEach(item => { %>
-              <tr>
-                <td><%= item.nome %></td>
-                <td><%= item.cliente || '-' %></td>
-                <td>R$ <%= item.valor.toFixed(2) %></td>
-                <td><%= item.etapa %></td>
-                <td>
-                  <form action="/oportunidades/<%= item.id %>/delete" method="post" style="display:inline;">
-                    <button type="submit" class="delete-button">Excluir</button>
-                  </form>
-                </td>
-              </tr>
-            <% }) %>
-          <% } %>
-        </tbody>
-      </table>
     </section>
+
+
+
   </main>
 
   <script>
     const modal = document.getElementById('modalOportunidade');
     const btnNova = document.getElementById('btnNovaOportunidade');
     const spanClose = document.getElementById('closeModal');
-    const modalError = document.querySelector('.modal-error-message');
+    const modalError = document.querySelector('.modal .alert');
 
     btnNova.onclick = () => modal.classList.remove('hidden');
     spanClose.onclick = () => modal.classList.add('hidden');
@@ -112,6 +140,8 @@
       modal.classList.remove('hidden');
     }
   </script>
+
+  <script src="/static/scripts/alerts.js" defer></script>
 
 </body>
 </html>

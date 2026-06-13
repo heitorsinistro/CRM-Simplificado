@@ -1,4 +1,5 @@
 import { listClientes, createCliente, deleteCliente } from '../services/clientesService.js';
+import { getUserMessage } from '../utils/errorUtils.js';
 
 export async function getClientes(req, res) {
   try {
@@ -14,8 +15,10 @@ export async function postCliente(req, res) {
     await createCliente(req.body);
     res.redirect('/clientes');
   } catch (error) {
+    console.error('postCliente error:', error);
     const clientes = await listClientes();
-    res.status(400).render('clientes', { clientes, message: null, modalError: error.message });
+    const modalError = getUserMessage(error, 'Não foi possível criar o cliente. Tente novamente.');
+    res.status(400).render('clientes', { clientes, message: null, modalError });
   }
 }
 
