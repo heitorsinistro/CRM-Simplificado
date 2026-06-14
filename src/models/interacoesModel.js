@@ -2,7 +2,7 @@ import db from '../config/db.js';
 
 export async function listInteracoes() {
   const [rows] = await db.execute(
-    `SELECT i.id, c.nome AS cliente, o.nome AS oportunidade, i.tipo, i.descricao, i.proxima_acao, DATE_FORMAT(i.data, '%d/%m/%Y') AS data
+    `SELECT i.id, i.cliente_id, i.oportunidade_id, c.nome AS cliente, o.nome AS oportunidade, i.tipo, i.descricao, i.proxima_acao, DATE_FORMAT(i.data, '%d/%m/%Y') AS data
      FROM interacoes i
      LEFT JOIN clientes c ON i.cliente_id = c.id
      LEFT JOIN oportunidades o ON i.oportunidade_id = o.id
@@ -18,6 +18,14 @@ export async function createInteracao(value) {
   await db.execute(
     'INSERT INTO interacoes (cliente_id, oportunidade_id, tipo, descricao, proxima_acao, data) VALUES (?, ?, ?, ?, ?, NOW())',
     [value.cliente_id, oportunidadeId, value.tipo, value.descricao || '', value.proxima_acao || '']
+  );
+}
+
+export async function updateInteracao(id, value) {
+  const oportunidadeId = value.oportunidade_id || null;
+  await db.execute(
+    'UPDATE interacoes SET cliente_id = ?, oportunidade_id = ?, tipo = ?, descricao = ?, proxima_acao = ? WHERE id = ?',
+    [value.cliente_id, oportunidadeId, value.tipo, value.descricao || '', value.proxima_acao || '', id]
   );
 }
 

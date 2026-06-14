@@ -15,3 +15,10 @@ export async function createCliente(value) {
 export async function deleteCliente(id) {
   await db.execute('DELETE FROM clientes WHERE id = ?', [id]);
 }
+
+export async function updateCliente(id, value) {
+  await db.execute(
+    'UPDATE clientes SET nome = ?, empresa = ?, email = ?, telefone = ?, categoria = ?, anotacoes = ? WHERE id = ?',
+    [value.nome, value.empresa || '', value.email, value.telefone || '', value.categoria, value.anotacoes || '', id]
+  );
+}

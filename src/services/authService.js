@@ -36,7 +36,9 @@ const loginSchema = Joi.object({
 export async function registerUser(payload) {
   const { error, value } = registerSchema.validate(payload, { abortEarly: false });
   if (error) {
-    throw new Error(error.details.map(detail => detail.message).join(', '));
+    const err = new Error('Validation failed');
+    err.validation = error.details.map(d => ({ path: d.path.join('.'), message: d.message }));
+    throw err;
   }
 
   await registerInModel(value);
@@ -45,7 +47,9 @@ export async function registerUser(payload) {
 export async function loginUser(payload) {
   const { error, value } = loginSchema.validate(payload, { abortEarly: false });
   if (error) {
-    throw new Error(error.details.map(detail => detail.message).join(', '));
+    const err = new Error('Validation failed');
+    err.validation = error.details.map(d => ({ path: d.path.join('.'), message: d.message }));
+    throw err;
   }
 
   return await loginInModel(value);

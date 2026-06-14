@@ -101,6 +101,44 @@ header strong {
   font-weight: 500;
 }
 
+.error-message .error-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.error-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.error-close {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: auto;
+}
+.error-close:focus { outline: 2px solid rgba(34,160,162,0.25); }
+
+.error-message.fade-out { opacity: 0; transform: translateY(-6px); transition: opacity 240ms ease, transform 240ms ease; }
+
+.field-error {
+  color: #b02a37;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.input-error {
+  border-color: #b02a37;
+  box-shadow: 0 0 0 3px rgba(176,42,55,0.06);
+}
+
 form {
   display: flex;
   flex-direction: column;

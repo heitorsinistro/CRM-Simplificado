@@ -15,18 +15,27 @@
     <h1>Bem-vindo de volta</h1>
 
     <% if (message) { %>
-      <div class="alert alert-error" role="alert" aria-live="assertive">
-        <span class="alert-text"><%= message %></span>
-        <button class="alert-close" aria-label="Fechar alerta">&times;</button>
+      <div class="error-message" role="alert" aria-live="assertive">
+        <div class="error-content">
+          <span class="error-icon" aria-hidden="true">⚠️</span>
+          <div class="error-text"><strong>Erro:</strong> <span><%= message %></span></div>
+          <button class="error-close" aria-label="Fechar mensagem">&times;</button>
+        </div>
       </div>
     <% } %>
     
     <form action="/auth/login" method="POST">
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Seu email" required />
+      <input type="email" id="email" name="email" placeholder="Seu email" value="<%= (typeof values !== 'undefined' && values && values.email) ? values.email : '' %>" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.email) ? 'input-error' : '' %>" aria-invalid="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.email) ? 'true' : 'false' %>" />
+      <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.email) { %>
+        <div class="field-error"><%= fieldErrors.email %></div>
+      <% } %>
 
       <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" placeholder="Sua senha" required />
+      <input type="password" id="senha" name="senha" placeholder="Sua senha" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.senha) ? 'input-error' : '' %>" aria-invalid="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.senha) ? 'true' : 'false' %>" />
+      <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.senha) { %>
+        <div class="field-error"><%= fieldErrors.senha %></div>
+      <% } %>
 
       <button type="submit">Login</button>
       

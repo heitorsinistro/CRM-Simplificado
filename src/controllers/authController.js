@@ -10,8 +10,15 @@ export async function register(req, res) {
     res.redirect('/login');
   } catch (error) {
     console.error('Register error:', error);
+    // Se vier com detalhes de validação, repasse por campo
+    if (error && error.validation) {
+      const fieldErrors = {};
+      for (const d of error.validation) fieldErrors[d.path] = d.message;
+      return res.status(400).render('registro', { message: null, fieldErrors, values: req.body });
+    }
+
     const displayMessage = getUserMessage(error, 'Ocorreu um erro ao registrar. Tente novamente mais tarde.');
-    res.status(400).render('registro', { message: displayMessage });
+    res.status(400).render('registro', { message: displayMessage, fieldErrors: null, values: req.body });
   }
 }
 
@@ -19,7 +26,7 @@ export async function login(req, res) {
   try {
     const user = await loginUser(req.body);
     if (!user) {
-      return res.status(400).render('login', { message: 'Email ou senha inválidos.' });
+      return res.status(400).render('login', { message: 'Email ou senha inválidos.', fieldErrors: null, values: { email: req.body.email } });
     }
 
     const token = jwt.sign({ id: user.id, nome: user.nome, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
@@ -34,7 +41,13 @@ export async function login(req, res) {
     res.redirect('/dashboard');
   } catch (error) {
     console.error('Login error:', error);
+    if (error && error.validation) {
+      const fieldErrors = {};
+      for (const d of error.validation) fieldErrors[d.path] = d.message;
+      return res.status(400).render('login', { message: null, fieldErrors, values: { email: req.body.email } });
+    }
+
     const displayMessage = getUserMessage(error, 'Ocorreu um erro ao processar o login. Tente novamente mais tarde.');
-    res.status(400).render('login', { message: displayMessage });
+    res.status(400).render('login', { message: displayMessage, fieldErrors: null, values: { email: req.body.email } });
   }
 }

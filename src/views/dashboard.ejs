@@ -56,6 +56,16 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   
+  <% 
+    const dadosPizzaSeguros = typeof dadosPizza !== 'undefined' ? dadosPizza : [];
+    const dadosLinhaSeguros = typeof dadosLinha !== 'undefined' ? dadosLinha : [];
+  %>
+  <script>
+    window.dadosGraficoPizza = <%- JSON.stringify(dadosPizzaSeguros) %>;
+    window.dadosGraficoLinha = <%- JSON.stringify(dadosLinhaSeguros) %>;
+  </script>
+
+  <script type="module" src="/static/scripts/dashboard.js"></script>
 
 </body>
 </html>

@@ -18,7 +18,20 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/styles', express.static(path.join(__dirname, 'public', 'styles')));
+// Serve files placed in project-root `static/` first, then fallback to `src/public`
+app.use('/static', express.static(path.join(__dirname, '..', 'static')));
 app.use('/static', express.static(path.join(__dirname, 'public')));
+
+// Ensure static JS/CSS are served with UTF-8 charset to avoid character corruption
+app.use((req, res, next) => {
+  if (req.path.endsWith('.js')) {
+    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  }
+  if (req.path.endsWith('.css')) {
+    res.setHeader('Content-Type', 'text/css; charset=utf-8');
+  }
+  next();
+});
 
 // Middleware: verifica estado do DB e responde 503 se indisponível
 app.use(async (req, res, next) => {

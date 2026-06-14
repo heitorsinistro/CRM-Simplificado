@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { listOportunidades as listFromModel, createOportunidade as createInModel, deleteOportunidade as deleteFromModel } from '../models/oportunidadesModel.js';
+import { listOportunidades as listFromModel, createOportunidade as createInModel, deleteOportunidade as deleteFromModel, updateOportunidade as updateInModel } from '../models/oportunidadesModel.js';
 
 const oportunidadeSchema = Joi.object({
   nome: Joi.string().min(2).required().messages({
@@ -37,10 +37,29 @@ export async function createOportunidade(payload) {
 
   const { error, value } = oportunidadeSchema.validate(processedPayload, { abortEarly: false });
   if (error) {
-    throw new Error(error.details.map(detail => detail.message).join(', '));
+    const err = new Error('Validation failed');
+    err.validation = error.details.map(d => ({ path: d.path.join('.'), message: d.message }));
+    throw err;
   }
 
   await createInModel(value);
+}
+
+export async function updateOportunidade(id, payload) {
+  const processedPayload = {
+    ...payload,
+    valor: typeof payload.valor === 'string' ? parseFloat(payload.valor) : payload.valor,
+    cliente_id: payload.cliente_id ? parseInt(payload.cliente_id) : null
+  };
+
+  const { error, value } = oportunidadeSchema.validate(processedPayload, { abortEarly: false });
+  if (error) {
+    const err = new Error('Validation failed');
+    err.validation = error.details.map(d => ({ path: d.path.join('.'), message: d.message }));
+    throw err;
+  }
+
+  await updateInModel(id, value);
 }
 
 export async function deleteOportunidade(id) {

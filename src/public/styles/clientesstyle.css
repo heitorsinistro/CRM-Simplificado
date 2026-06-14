@@ -1,21 +1,41 @@
+main {
+  margin-left: 260px;
+  padding: 40px;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
 .card {
-    background: white;
-    width: 90%;
-    max-width: 900px;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 7px #0002;
-    margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+}
+
+.card h2 {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .add-button {
-    background: #27ae60;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-bottom: 15px;
+  background: #22a0a2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.add-button:hover {
+  background: #1e8b8d;
 }
 
 table {
@@ -24,17 +44,23 @@ table {
 }
 
 thead {
-    background: #ececec;
+  background: #f8f9fa;
 }
 
-th, td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-    max-width: 180px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+th {
+  text-align: left;
+  padding: 15px;
+  color: #7f8c8d;
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom: 2px solid #eee;
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  color: #2c3e50;
+  text-align: left;
 }
 
 button.action {
@@ -46,123 +72,167 @@ button.action {
 .edit {
     background: #f1c40f;
     color: black;
+    margin-right: 5px;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
 
-.delete {
-    background: #e74c3c;
-    color: white;
+.delete-btn {
+  background: none;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.delete-btn:hover {
+  background: #e74c3c;
+  color: white;
 }
 
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #0007;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hidden {
-    display: none;
+  display: none !important;
 }
 
 .modal-content {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    width: 350px;
-    box-shadow: 0px 0px 10px #0003;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  position: relative;
+  box-sizing: border-box;
 }
 
-.modal-content h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.modal-content label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.modal-content input {
-    width: 100%;
-    padding: 8px 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-}
-
-.modal-content textarea {
-    width: 100%;
-    padding: 8px 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    resize: vertical;
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 22px;
+  text-align: left;
 }
 
 .modal-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .save {
-    background: #2ecc71;
-    padding: 10px;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+  background: #22a0a2;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 1;
+  transition: background 0.2s;
+}
+
+.save:hover {
+  background: #1e8b8d;
 }
 
 .cancel {
-    background: #bdc3c7;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  background: #bdc3c7;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  flex: 1;
 }
 
 .toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 15px;
+  width: 100%;
 }
 
 .search-input {
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    min-width: 200px;
-    max-width: 200px;
-    width: 25vw;
-    box-sizing: border-box;
-    margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 300px;
+  box-sizing: border-box;
 }
 
-.field-row select {
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 15px;
+.search-input:focus {
+  border-color: #22a0a2;
+  outline: none;
+}
+
+.field-row {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field-row label {
+  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.field-row input, 
+.field-row select, 
+.field-row textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.field-row input:focus, 
+.field-row select:focus, 
+.field-row textarea:focus {
+  border-color: #22a0a2;
+  outline: none;
+}
+
+.field-row textarea {
+  resize: vertical;
 }
 
 .close {
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #aaa;
+  line-height: 1;
+  background: transparent;
+  border: none;
+}
+
+.close:hover {
+  color: #7f8c8d;
 }
 
 .modal-error-message {
@@ -184,4 +254,16 @@ button.action {
     .search-input {
         width: 100%;
     }
+}
+
+.field-error {
+    color: #b02a37;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.input-error {
+    border-color: #b02a37;
+    box-shadow: 0 0 0 3px rgba(176,42,55,0.06);
 }

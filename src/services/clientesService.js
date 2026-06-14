@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { listClientes as listFromModel, createCliente as createInModel, deleteCliente as deleteFromModel } from '../models/clientesModel.js';
+import { listClientes as listFromModel, createCliente as createInModel, deleteCliente as deleteFromModel, updateCliente as updateInModel } from '../models/clientesModel.js';
 
 const clienteSchema = Joi.object({
   nome: Joi.string().min(2).required().messages({
@@ -33,10 +33,23 @@ export async function listClientes() {
 export async function createCliente(payload) {
   const { error, value } = clienteSchema.validate(payload, { abortEarly: false });
   if (error) {
-    throw new Error(error.details.map(detail => detail.message).join(', '));
+    const err = new Error('Validation failed');
+    err.validation = error.details.map(d => ({ path: d.path.join('.'), message: d.message }));
+    throw err;
   }
 
   await createInModel(value);
+}
+
+export async function updateCliente(id, payload) {
+  const { error, value } = clienteSchema.validate(payload, { abortEarly: false });
+  if (error) {
+    const err = new Error('Validation failed');
+    err.validation = error.details.map(d => ({ path: d.path.join('.'), message: d.message }));
+    throw err;
+  }
+
+  await updateInModel(id, value);
 }
 
 export async function deleteCliente(id) {

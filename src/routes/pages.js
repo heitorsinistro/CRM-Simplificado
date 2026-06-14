@@ -14,11 +14,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  res.render('login', { message: null });
+  res.render('login', { message: null, fieldErrors: null, values: null });
 });
 
 router.get('/registro', (req, res) => {
-  res.render('registro', { message: null });
+  res.render('registro', { message: null, fieldErrors: null, values: null });
 });
 
 router.get('/health', async (req, res) => {

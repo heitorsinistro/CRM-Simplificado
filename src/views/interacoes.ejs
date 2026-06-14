@@ -27,54 +27,71 @@
       <div id="modalInteracao" class="modal hidden">
 
         <div class="modal-content">
-
-          <span id="closeModal" class="close">&times;</span>
-          <h2>Adicionar Nova Interação</h2>
-          <% if (modalError) { %>
-            <div class="alert alert-error" role="alert" aria-live="assertive">
-              <span class="alert-text"><%= modalError %></span>
-              <button class="alert-close" aria-label="Fechar alerta">&times;</button>
+          <div class="modal-header">
+            <h2>Adicionar Nova Interação</h2>
+            <span id="closeModal" class="close">&times;</span>
+          </div>
+          <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors._global) { %>
+            <div class="error-message" role="alert" aria-live="assertive">
+              <div class="error-content">
+                <span class="error-icon" aria-hidden="true">⚠️</span>
+                <div class="error-text"><strong>Erro:</strong> <span><%= fieldErrors._global %></span></div>
+                <button class="error-close" aria-label="Fechar mensagem">&times;</button>
+              </div>
             </div>
           <% } %>
 
           <form id="interacaoForm" action="/interacoes" method="post">
-            <div class="field-row">
+            <div class="field-group">
               <label>Cliente</label>
-              <select name="cliente_id" required>
+              <select name="cliente_id" required class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.cliente_id) ? 'input-error' : '' %>">
                 <% if (typeof clientes !== 'undefined' && clientes) { %>
                   <% clientes.forEach(cliente => { %>
-                    <option value="<%= cliente.id %>"><%= cliente.nome %></option>
+                    <option value="<%= cliente.id %>" <%= (typeof values !== 'undefined' && values && String(values.cliente_id) === String(cliente.id)) ? 'selected' : '' %>><%= cliente.nome %></option>
                   <% }) %>
                 <% } %>
               </select>
+              <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.cliente_id) { %>
+                <div class="field-error"><%= fieldErrors.cliente_id %></div>
+              <% } %>
             </div>
-            <div class="field-row">
+            <div class="field-group">
               <label>Oportunidade (opcional)</label>
-              <select name="oportunidade_id">
-                <option value="">Nenhuma</option>
+              <select name="oportunidade_id" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.oportunidade_id) ? 'input-error' : '' %>">
+                <option value="" <%= (typeof values !== 'undefined' && values && !values.oportunidade_id) ? 'selected' : '' %>>Nenhuma</option>
                 <% if (typeof oportunidades !== 'undefined' && oportunidades) { %>
                   <% oportunidades.forEach(oportunidade => { %>
-                    <option value="<%= oportunidade.id %>"><%= oportunidade.titulo %></option>
+                    <option value="<%= oportunidade.id %>" <%= (typeof values !== 'undefined' && values && String(values.oportunidade_id) === String(oportunidade.id)) ? 'selected' : '' %>><%= oportunidade.titulo || oportunidade.nome || '' %></option>
                   <% }) %>
                 <% } %>
               </select>
+              <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.oportunidade_id) { %>
+                <div class="field-error"><%= fieldErrors.oportunidade_id %></div>
+              <% } %>
             </div>
-            <div class="field-row">
+            <div class="field-group">
               <label>Tipo de Interação</label>
-              <select name="tipo" required>
-                <option value="Telefone">Telefone</option>
-                <option value="E-mail">E-mail</option>
-                <option value="Reunião">Reunião</option>
-                <option value="Mensagem">Mensagem</option>
+              <select name="tipo" required class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.tipo) ? 'input-error' : '' %>">
+                <option value="Ligação" <%= (typeof values !== 'undefined' && values && values.tipo === 'Ligação') ? 'selected' : '' %>>Ligação</option>
+                <option value="E-mail" <%= (typeof values !== 'undefined' && values && values.tipo === 'E-mail') ? 'selected' : '' %>>E-mail</option>
+                <option value="Reunião" <%= (typeof values !== 'undefined' && values && values.tipo === 'Reunião') ? 'selected' : '' %>>Reunião</option>
+                <option value="WhatsApp" <%= (typeof values !== 'undefined' && values && values.tipo === 'WhatsApp') ? 'selected' : '' %>>WhatsApp</option>
+                <option value="Anotação" <%= (typeof values !== 'undefined' && values && values.tipo === 'Anotação') ? 'selected' : '' %>>Anotação</option>
+                <option value="Outro" <%= (typeof values !== 'undefined' && values && values.tipo === 'Outro') ? 'selected' : '' %>>Outro</option>
               </select>
+              <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.tipo) { %>
+                <div class="field-error"><%= fieldErrors.tipo %></div>
+              <% } %>
             </div>
-            <div class="field-row">
+            <div class="field-group">
               <label>Descrição</label>
-              <textarea name="detalhes" rows="3"></textarea>
+              <textarea name="descricao" rows="3" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.descricao) ? 'input-error' : '' %>"><%= (typeof values !== 'undefined' && values && values.descricao) ? values.descricao : '' %></textarea>
+              <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.descricao) { %>
+                <div class="field-error"><%= fieldErrors.descricao %></div>
+              <% } %>
             </div>
             <div class="modal-buttons">
-              <button type="button" id="btnCancelar" class="cancel">Cancelar</button>
-              <button type="submit" class="save">Salvar Interação</button>
+              <button type="submit" class="save-btn">Salvar Interação</button>
             </div>
           </form>
         </div>
@@ -92,18 +109,25 @@
           </tr>
         </thead>
         <tbody>
-          <% if (!typeof interacoes !== 'undefined' || !interacoes || interacoes.length === 0) { %>
+          <% if (typeof interacoes === 'undefined' || !interacoes || interacoes.length === 0) { %>
             <tr><td colspan="6">Nenhuma interação cadastrada.</td></tr>
           <% } else { %>
             <% interacoes.forEach(item => { %>
               <tr>
-                <td><%= item.cliente_nome || item.cliente || '-' %></td>
-                <td><%= item.oportunidade_titulo || item.oportunidade || '-' %></td>
+                <td><%= item.cliente || '-' %></td>
+                <td><%= item.oportunidade || '-' %></td>
                 <td><%= item.tipo %></td>
-                <td><%= item.detalhes || '-' %></td>
-                <td><%= item.data_interacao ? new Date(item.data_interacao).toLocaleDateString('pt-BR') : '-' %></td>
+                <td class="col-descricao" title="<%= (item.descricao || '-') %>"><%= item.descricao || '-' %></td>
+                <td><%= item.data || '-' %></td>
                 <td>
-                  <form action="/interacoes/<%= item.id %>/delete" method="post" style="display:inline;">
+                  <button type="button" class="action edit" 
+                    data-id="<%= item.id %>"
+                    data-cliente_id="<%= item.cliente_id %>"
+                    data-oportunidade_id="<%= item.oportunidade_id %>"
+                    data-tipo="<%= item.tipo %>"
+                    data-descricao="<%= item.descricao || '' %>"
+                  >Editar</button>
+                  <form action="/interacoes/<%= item.id %>/delete" method="post" style="display:inline; margin-left:8px;">
                     <button type="submit" class="action delete">Excluir</button>
                   </form>
                 </td>
@@ -119,7 +143,7 @@
     const btnNovaInteracao = document.getElementById('btnNovaInteracao');
     const modalInteracao = document.getElementById('modalInteracao');
     const closeModal = document.getElementById('closeModal');
-    const modalError = document.querySelector('.modal .alert');
+    const modalError = document.querySelector('.modal .error-message') || document.querySelector('.modal .field-error');
 
     btnNovaInteracao.addEventListener('click', () => {
       modalInteracao.classList.remove('hidden');
@@ -142,6 +166,8 @@
   </script>
 
   <script src="/static/scripts/alerts.js" defer></script>
+  <script src="/static/scripts/search.js" defer></script>
+  <script src="/static/scripts/edit.js" defer></script>
 
 </body>
 </html>
