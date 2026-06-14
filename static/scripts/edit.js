@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
           oportunidadeForm.anotacoes.value = btn.dataset.anotacoes || '';
           oportunidadeForm.dataset.originalAction = oportunidadeForm.action;
           oportunidadeForm.action = `/oportunidades/${btn.dataset.id}/edit`;
+          // ensure hidden id field is set so server can detect edit even if action isn't applied
+          const idField = oportunidadeForm.querySelector('input[name="id"]');
+          if (idField) idField.value = btn.dataset.id || '';
           const title = modal.querySelector('h2');
           if (title) title.textContent = 'Editar Oportunidade';
           const saveBtn = oportunidadeForm.querySelector('button[type="submit"], .save-btn');
@@ -80,6 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (modal.id === 'modalOportunidade') {
           if (title) title.textContent = 'Nova Oportunidade';
           if (saveBtn) saveBtn.textContent = 'Salvar Oportunidade';
+          // clear id hidden field when resetting
+          const idField = form.querySelector('input[name="id"]');
+          if (idField) idField.value = '';
           form.reset();
         } else if (modal.id === 'modalInteracao') {
           if (title) title.textContent = 'Adicionar Nova Interação';

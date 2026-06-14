@@ -1,8 +1,13 @@
-body {
+* {
+    box-sizing: border-box;
     margin: 0;
-    display: relative;
+    padding: 0;
+}
+
+body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    color: #333;
 }
 
 .sidebar {
@@ -14,6 +19,7 @@ body {
     position: fixed;
     left: 0;
     top: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-title {
@@ -21,36 +27,52 @@ body {
     font-size: 20px;
     margin-bottom: 30px;
     font-weight: bold;
+    color: #fff;
+    letter-spacing: 0.5px;
 }
 
 .menu {
     list-style: none;
-    padding: 0;
-    margin: 0;
+}
+
+.menu-item {
+    margin: 4px 10px;
 }
 
 .menu-item a {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 20px;
-    color: #dcdcdc;
+    padding: 12px 15px;
+    color: #b3b3b3;
     text-decoration: none;
-    font-size: 16px;
-    transition: 0.2s;
+    font-size: 15px;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
 }
 
 .menu-item .icon {
     font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
 }
 
 .menu-item a:hover {
     background-color: #2b2b2b;
-    color: white;
+    color: #ffffff;
+    padding-left: 18px;
 }
 
 .menu-item.active a {
     background-color: #009688;
     color: white;
     font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 150, 136, 0.3);
+}
+
+.menu-item.active a:hover {
+    padding-left: 15px;
+    background-color: #00897b;
 }

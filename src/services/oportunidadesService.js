@@ -29,10 +29,11 @@ export async function listOportunidades() {
 
 export async function createOportunidade(payload) {
   // Converter valor para number se for string
+  const { id, ...rest } = payload || {};
   const processedPayload = {
-    ...payload,
-    valor: typeof payload.valor === 'string' ? parseFloat(payload.valor) : payload.valor,
-    cliente_id: payload.cliente_id ? parseInt(payload.cliente_id) : null
+    ...rest,
+    valor: typeof rest.valor === 'string' ? parseFloat(rest.valor) : rest.valor,
+    cliente_id: rest.cliente_id ? parseInt(rest.cliente_id) : null
   };
 
   const { error, value } = oportunidadeSchema.validate(processedPayload, { abortEarly: false });
@@ -46,10 +47,11 @@ export async function createOportunidade(payload) {
 }
 
 export async function updateOportunidade(id, payload) {
+  const { id: bodyId, ...rest } = payload || {};
   const processedPayload = {
-    ...payload,
-    valor: typeof payload.valor === 'string' ? parseFloat(payload.valor) : payload.valor,
-    cliente_id: payload.cliente_id ? parseInt(payload.cliente_id) : null
+    ...rest,
+    valor: typeof rest.valor === 'string' ? parseFloat(rest.valor) : rest.valor,
+    cliente_id: rest.cliente_id ? parseInt(rest.cliente_id) : null
   };
 
   const { error, value } = oportunidadeSchema.validate(processedPayload, { abortEarly: false });

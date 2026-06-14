@@ -56,7 +56,7 @@
                         data-valor="<%= item.valor %>"
                         data-etapa="<%= item.etapa %>"
                         data-anotacoes="<%= item.anotacoes || '' %>">Editar</button>
-                      <form action="/oportunidades/<%= item.id %>/delete" method="post" onsubmit="return confirm('Excluir esta oportunidade?')" style="display:inline; margin-left:8px;">
+                      <form action="/oportunidades/<%= item.id %>/delete" method="post" style="display:inline; margin-left:8px;">
                         <button type="submit" class="delete-btn">Excluir</button>
                       </form>
                     </td>
@@ -87,6 +87,7 @@
             <% } %>
             
             <form id="oportunidadeForm" action="/oportunidades" method="post">
+              <input type="hidden" name="id" value="" />
               <div class="field-group">
                   <label>Título da Oportunidade</label>
                   <input name="nome" type="text" placeholder="Ex: Venda de Software" required value="<%= (typeof values !== 'undefined' && values && values.nome) ? values.nome : '' %>" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.nome) ? 'input-error' : '' %>" />
@@ -131,6 +132,14 @@
                 </div>
               </div>
 
+              <div class="field-group">
+                <label>Anotações</label>
+                <textarea name="anotacoes" rows="3" placeholder="Observações..." class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.anotacoes) ? 'input-error' : '' %>"><%= (typeof values !== 'undefined' && values && values.anotacoes) ? values.anotacoes : '' %></textarea>
+                <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.anotacoes) { %>
+                  <div class="field-error"><%= fieldErrors.anotacoes %></div>
+                <% } %>
+              </div>
+
               <button type="submit" class="save-btn">Salvar Oportunidade</button>
           </form>
 
@@ -166,6 +175,7 @@
   <script src="/static/scripts/alerts.js" defer></script>
   <script src="/static/scripts/search.js" defer></script>
   <script src="/static/scripts/edit.js" defer></script>
+  <script src="/static/scripts/confirm-delete.js" defer></script>
 
 </body>
 </html>
