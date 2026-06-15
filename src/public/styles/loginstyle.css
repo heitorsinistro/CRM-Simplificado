@@ -197,36 +197,6 @@ form button[type="submit"]:hover {
   background-color: #1e8b8d;
 }
 
-.btn-google {
-  background-color: #e5e5e5;
-  color: #444;
-  border: 1px solid #ccc;
-  margin-bottom: 0;
-}
-
-.btn-google:hover {
-  background-color: #dcdcdc;
-}
-
-p.continue {
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 12px 0;
-}
-
-p.continue::before, p.continue::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(0, 0, 0, 0.15);
-}
-
-p.continue::before { margin-right: 12px; }
-p.continue::after { margin-left: 12px; }
-
 .signup-link {
   text-align: center;
   margin-top: 15px;
