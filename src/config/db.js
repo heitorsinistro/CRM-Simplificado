@@ -4,28 +4,53 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const dbConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT), // IMPORTANTE
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+
+    // Railway normalmente funciona sem SSL explícito,
+    // mas pode ser mantido:
+    ssl: {
+        rejectUnauthorized: false
+    },
+
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 };
+
+// Debug temporário
+console.log('[DB CONFIG]', {
+    host: dbConfig.host,
+    port: dbConfig.port,
+    user: dbConfig.user,
+    database: dbConfig.database
+});
 
 const pool = mysql.createPool(dbConfig);
 
+// Teste inicial da conexão
 (async () => {
     try {
         const connection = await pool.getConnection();
-        console.log('Conexao com o banco de dados efetuada com sucesso!!!');
-        console.log('[dbConnection] host:', dbConfig.host, 'dbname: ', dbConfig.database);
+
+        console.log('✅ Conexão com o banco efetuada com sucesso!');
+        console.log('[dbConnection] host:', dbConfig.host);
+        console.log('[dbConnection] port:', dbConfig.port);
+        console.log('[dbConnection] database:', dbConfig.database);
+
         connection.release();
     } catch (error) {
-        console.error('Conexão com o banco de dados gerou um erro.');
+        console.error('❌ Erro ao conectar no banco');
+
         if (error.code === 'ECONNREFUSED') {
-            console.error('O serviço Mysql não está rodando no localhost');
+            console.error('Conexão recusada.');
         } else if (error.code === 'ER_ACCESS_DENIED_ERROR') {
             console.error('Usuário ou senha incorretos.');
         } else {
-            console.error('Erro não identificado ', error);
+            console.error(error);
         }
     }
 })();
@@ -35,30 +60,31 @@ export async function isConnected() {
     try {
         await pool.query('SELECT 1');
         return true;
-    } catch (err) {
+    } catch {
         return false;
     }
 }
 
-// Loop de verificação em background (loga mudanças de estado)
+// Monitoramento
 let lastHealthy = true;
+
 (async function monitor() {
-    try {
-        while (true) {
-            try {
-                const ok = await isConnected();
-                if (ok !== lastHealthy) {
-                    console.log('[db.monitor] healthy:', ok);
-                    lastHealthy = ok;
-                }
-                // se saudável, checa a cada 30s
-                await new Promise(r => setTimeout(r, ok ? 30000 : 5000));
-            } catch (e) {
-                console.error('[db.monitor] erro ao checar db', e.message || e);
-                await new Promise(r => setTimeout(r, 5000));
+    while (true) {
+        try {
+            const ok = await isConnected();
+
+            if (ok !== lastHealthy) {
+                console.log('[db.monitor] healthy:', ok);
+                lastHealthy = ok;
             }
+
+            await new Promise(r => setTimeout(r, ok ? 30000 : 5000));
+
+        } catch (err) {
+            console.error('[db.monitor]', err.message);
+            await new Promise(r => setTimeout(r, 5000));
         }
-    } catch (_) {}
+    }
 })();
 
 export default pool;
