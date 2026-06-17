@@ -29,7 +29,7 @@ export async function login(req, res) {
       return res.status(400).render('login', { message: 'Email ou senha inválidos.', fieldErrors: null, values: { email: req.body.email } });
     }
 
-    const token = jwt.sign({ id: user.id, nome: user.nome, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id, nome: user.nome, email: user.email, cargo: user.cargo }, JWT_SECRET, { expiresIn: '1h' });
 
     res.cookie('token', token, {
       httpOnly: true,
