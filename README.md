@@ -58,6 +58,11 @@ Depois, abra no navegador:
 ```text
 http://localhost:3000
 ```
+Ou acesse a versão pública hospedada no Render:
+
+```text
+https://crm-simplificado.onrender.com
+```
 
 ## Exemplos de uso
 - Acesse `http://localhost:3000/login` para entrar no sistema.
