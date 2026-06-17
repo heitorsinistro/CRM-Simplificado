@@ -32,3 +32,9 @@ export function verifyToken(req, res, next) {
 export function getTokenFromRequest(req) {
   return getTokenFromReq(req);
 }
+
+export function requireAdmin(req, res, next) {
+  const user = req.user || res.locals.user;
+  if (user && user.cargo === 'admin') return next();
+  return res.redirect('/dashboard');
+}

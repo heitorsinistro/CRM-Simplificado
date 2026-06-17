@@ -90,7 +90,7 @@
               <input type="hidden" name="id" value="" />
               <div class="field-group">
                   <label>Título da Oportunidade</label>
-                  <input name="nome" type="text" placeholder="Ex: Venda de Software" required value="<%= (typeof values !== 'undefined' && values && values.nome) ? values.nome : '' %>" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.nome) ? 'input-error' : '' %>" />
+                  <input name="nome" type="text" placeholder="Ex: Venda de Software" value="<%= (typeof values !== 'undefined' && values && values.nome) ? values.nome : '' %>" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.nome) ? 'input-error' : '' %>" />
                   <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.nome) { %>
                     <div class="field-error"><%= fieldErrors.nome %></div>
                   <% } %>
@@ -98,7 +98,7 @@
               
               <div class="field-group">
                 <label>Cliente Relacionado</label>
-                <select name="cliente_id" required class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.cliente_id) ? 'input-error' : '' %>">
+                <select name="cliente_id" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.cliente_id) ? 'input-error' : '' %>">
                   <option value="" disabled <%= !(typeof values !== 'undefined' && values && values.cliente_id) ? 'selected' : '' %>>Selecione um cliente...</option>
                   <% clientes.forEach(cliente => { %>
                     <option value="<%= cliente.id %>" <%= (typeof values !== 'undefined' && values && String(values.cliente_id) === String(cliente.id)) ? 'selected' : '' %>><%= cliente.nome %></option>
@@ -112,14 +112,14 @@
               <div class="field-row-grid">
                 <div class="field-group">
                   <label>Valor (R$)</label>
-                  <input name="valor" type="number" step="0.01" placeholder="0,00" required value="<%= (typeof values !== 'undefined' && values && values.valor) ? values.valor : '' %>" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.valor) ? 'input-error' : '' %>" />
+                  <input name="valor" type="number" step="0.01" placeholder="0,00" value="<%= (typeof values !== 'undefined' && values && values.valor) ? values.valor : '' %>" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.valor) ? 'input-error' : '' %>" />
                   <% if (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.valor) { %>
                     <div class="field-error"><%= fieldErrors.valor %></div>
                   <% } %>
                 </div>
                 <div class="field-group">
                   <label>Etapa Atual</label>
-                  <select name="etapa" required class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.etapa) ? 'input-error' : '' %>">
+                  <select name="etapa" class="<%= (typeof fieldErrors !== 'undefined' && fieldErrors && fieldErrors.etapa) ? 'input-error' : '' %>">
                     <option value="Contato" <%= (typeof values !== 'undefined' && values && values.etapa === 'Contato') ? 'selected' : '' %>>Contato</option>
                     <option value="Proposta" <%= (typeof values !== 'undefined' && values && values.etapa === 'Proposta') ? 'selected' : '' %>>Proposta</option>
                     <option value="Negociação" <%= (typeof values !== 'undefined' && values && values.etapa === 'Negociação') ? 'selected' : '' %>>Negociação</option>

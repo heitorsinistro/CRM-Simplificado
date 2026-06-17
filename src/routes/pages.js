@@ -4,7 +4,7 @@ import { getClientes } from '../controllers/clientesController.js';
 import { getOportunidades } from '../controllers/oportunidadesController.js';
 import { getInteracoes } from '../controllers/interacoesController.js';
 import { getUsuarios } from '../controllers/usuariosController.js';
-import { verifyToken } from '../middleware/authMiddleware.js';
+import { verifyToken, requireAdmin } from '../middleware/authMiddleware.js';
 import { isConnected } from '../config/db.js';
 
 const router = Router();
@@ -37,6 +37,6 @@ router.get('/oportunidades', verifyToken, getOportunidades);
 
 router.get('/interacoes', verifyToken, getInteracoes);
 
-router.get('/usuarios', verifyToken, getUsuarios);
+router.get('/usuarios', verifyToken, requireAdmin, getUsuarios);
 
 export default router;
